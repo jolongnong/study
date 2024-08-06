@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>유저정보</title>
+</head>
+<body>
+
+유저정보입니다.
+
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>성별</th>
+        <th>전화번호</th>
+    </tr>
+    </thead>
+    <tbody >
+    <tr th:each="list, iterStat : ${getUsrelist}">
+        <td><span th:text="${iterStat.index + 1}"></span></td>
+        <td><span th:text="${list.id}"></span></td>
+        <td><span th:text="${list.memberInfo.name}"></span></td>
+        <td>
+                                            <span th:switch="${list.memberInfo.gender}">
+                                                <span th:case="'1'">남자</span>
+                                                <span th:case="'2'">여자</span>
+                                            </span>
+        </td>
+        <td><span th:text="${list.phone}"></span></td>
+    </tr>
+    </tbody>
+</table>
+
+
+        <!--pagination -->
+        <nav>
+            <ul th:if="${count>0}" >
+                <li th:if="${startPage>10}" class="page-item" >
+                    <a class="page-link" th:href="@{'/userinfo?pageNum=' + (${startPage} - 10)}" aria-label="Previous">
+                    </a>
+                </li>
+
+                <!-- Page Numbers -->
+                <li  th:each="i : ${#numbers.sequence(startPage, endPage)}" >
+                    <a  th:href="@{'/userinfo?pageNum=' + ${i}}" th:text="${i}"></a>
+                </li>
+
+                <!-- Next Button -->
+                <li th:if="${endPage<pageCount}">
+                    <a th:href="@{'/userinfo?pageNum=' + (${startPage} + 10)}" aria-label="Next">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+
+</body>
+</html>
